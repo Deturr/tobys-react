@@ -1,40 +1,93 @@
 import React from 'react';
-
+const questions = [
+  {
+      questionText: 'Wat is de hoofdstad van Frankrijk?',
+      answerOptions: [
+          { answerText: 'New York', isCorrect: false },
+          { answerText: 'London', isCorrect: false },
+          { answerText: 'Paris', isCorrect: true },
+          { answerText: 'Dublin', isCorrect: false },
+      ],
+  },
+  {
+      questionText: 'Wie is de oprichter van Tesla?',
+      answerOptions: [
+          { answerText: 'Jeff Bezos', isCorrect: false },
+          { answerText: 'Elon Musk', isCorrect: true },
+          { answerText: 'Bill Gates', isCorrect: false },
+          { answerText: 'Tony Stark', isCorrect: false },
+      ],
+  },
+  {
+      questionText: 'Welk bedrijf was eind jaren 90 bijna failliet?',
+      answerOptions: [
+          { answerText: 'Apple', isCorrect: true },
+          { answerText: 'Intel', isCorrect: false },
+          { answerText: 'Amazon', isCorrect: false },
+          { answerText: 'Microsoft', isCorrect: false },
+      ],
+  },
+  {
+      questionText: 'Hoeveel Harry Potter boeken zijn er?',
+      answerOptions: [
+          { answerText: '1', isCorrect: false },
+          { answerText: '4', isCorrect: false },
+          { answerText: '6', isCorrect: false },
+          { answerText: '7', isCorrect: true },
+      ],
+  },
+  {
+      questionText: 'Wat is GEEN Cryptomunt?',
+      answerOptions: [
+          { answerText: 'Bitcoin', isCorrect: false },
+          { answerText: 'EOS', isCorrect: false },
+          { answerText: 'Pancake Swap', isCorrect: false },
+          { answerText: 'XOTA-XL', isCorrect: true },
+      ],
+  },
+  {
+    questionText: 'Welke van deze personen is allochtoon ',
+    answerOptions: [
+        { answerText: 'Qian', isCorrect: false },
+        { answerText: 'Kyran', isCorrect: false },
+        { answerText: 'Efe', isCorrect: true },
+        { answerText: 'Dim', isCorrect: false },
+    ],
+},
+];
 class App extends React.Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      myString: '',
-      myColor: 'red',
-   }
-    this.getNumbers();
+      vraagNr: 0,
+      score: 0
+    }
+
   }
   
-  getNumbers() {
-    for (var i=0; i < 10; i++) {
-      this.state.myString = this.state.myString + "*";
+  handleAnswerOptionClick(isCorrect) {
+    console.log("Button clicked");
+    if (isCorrect) {
+      console.log("Antwoord is goed!");
+    }else{
+      console.log("Antwoord is fout!");
     }
-  }
-  changeColor() {
-    if ( this.state.myColor === "red") {
-      this.setState({ 'myColor': 'green'} );
-    } else {
-      this.setState({ 'myColor': 'red'} );
+    if ( this.state.vraagNr < questions.length - 1) {
+      this.setState( {'vraagNr': this.state.vraagNr+1} );
     }
-  }
-
-  AddStar() {
-    this.setState({ myString: this.state.myString + "*" });
   }
   
   render() {
+    var antwoorden=questions[this.state.vraagNr].answerOptions;
     return (
-      <div className={"App "+this.state.myColor}>
-        {this.state.myString}
-        <br />
-<button onClick={() => this.changeColor() } >Change Color</button> <br></br>
-<button onClick={() => this.AddStar() } >Add Star</button>
+      <div className="app">
+<div>{questions[this.state.vraagNr].questionText}</div>
+<button onClick={() => this.handleAnswerOptionClick(antwoorden[0].isCorrect)}>{antwoorden[0].answerText}</button>
+<button onClick={() => this.handleAnswerOptionClick(antwoorden[1].isCorrect)}>{antwoorden[1].answerText}</button>
+<button onClick={() => this.handleAnswerOptionClick(antwoorden[2].isCorrect)}>{antwoorden[2].answerText}</button>
+<button onClick={() => this.handleAnswerOptionClick(antwoorden[3].isCorrect)}>{antwoorden[3].answerText}</button>
+
       </div>
     );
   }
