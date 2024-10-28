@@ -61,33 +61,51 @@ class App extends React.Component {
     super(props);
     this.state = {
       vraagNr: 0,
-      score: 0
+      score: 0,
+      stop: false,
     }
 
   }
   
   handleAnswerOptionClick(isCorrect) {
-    console.log("Button clicked");
     if (isCorrect) {
-      console.log("Antwoord is goed!");
+      this.setState( {'score': this.state.score+1} );
     }else{
-      console.log("Antwoord is fout!");
     }
-    if ( this.state.vraagNr < questions.length - 1) {
+    if ( this.state.vraagNr < questions.length-1) {
       this.setState( {'vraagNr': this.state.vraagNr+1} );
+    } else {
+      this.setState( { 'stop': true } );
     }
+    
   }
   
   render() {
     var antwoorden=questions[this.state.vraagNr].answerOptions;
     return (
       <div className="app">
-<div>{questions[this.state.vraagNr].questionText}</div>
-<button onClick={() => this.handleAnswerOptionClick(antwoorden[0].isCorrect)}>{antwoorden[0].answerText}</button>
-<button onClick={() => this.handleAnswerOptionClick(antwoorden[1].isCorrect)}>{antwoorden[1].answerText}</button>
-<button onClick={() => this.handleAnswerOptionClick(antwoorden[2].isCorrect)}>{antwoorden[2].answerText}</button>
-<button onClick={() => this.handleAnswerOptionClick(antwoorden[3].isCorrect)}>{antwoorden[3].answerText}</button>
-
+        { this.state.stop  ?  
+          (
+            <div className='score'>
+  Jouw score is {this.state.score} van de {questions.length}
+</div>
+          )
+          : 
+          ( 
+            <>
+              <div className="column">
+                <span>Vraag {this.state.vraagNr + 1} van {questions.length}</span>
+                <span className="question">{questions[this.state.vraagNr].questionText}</span>
+              </div>
+              
+              <div className="column uitlijnen">
+                { antwoorden.map((antwoord) => (
+                  <button onClick={() => this.handleAnswerOptionClick(antwoord.isCorrect)}>{antwoord.answerText} {antwoord.isCorrect}</button>
+                ))}
+              </div>
+            </>
+          )
+        }
       </div>
     );
   }
